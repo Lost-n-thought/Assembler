@@ -1,4 +1,4 @@
-
+[TOC]
 
 
 
@@ -35,9 +35,27 @@ END
 | Alphanumeric(must start with letter or __) | Aplhabets   | Alphanumeric(must start with letter or __) or number or [symbol] | Alphanumeric(must start with letter or __) |
 |                                            |             |                                                                  |                                            |
 
+#### Operation type
 
+1. In all IS staements  only **Operand1** changes **if any**
 
+##### 	Type - IS 2oprands
 
+​		eg MOVE A , B
+
+​			operand1 must be label or Register
+
+​					
+
+| Operrand 1                | Operand 2               |
+| ------------------------- | ----------------------- |
+| Label(address)or Register | label register constant |
+
+##### 	Type - IS 1 operand
+
+​		INC
+
+​	Type - 
 
 LC processing
 
