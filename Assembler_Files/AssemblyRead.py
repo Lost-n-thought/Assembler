@@ -2,6 +2,8 @@ import os
 import re
 import Mot_read as mr
 
+registers_name = ['AREG', 'BREG', 'CREG', 'DREG']
+
 def assembler_iter(file_name):
     """
     Iterates through the lines of the assembly file and returns the lines as a list.
