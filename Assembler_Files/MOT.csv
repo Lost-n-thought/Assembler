@@ -1,0 +1,7 @@
+﻿Mnemonics,Opcode,Size,Type,Subroutine
+JUMP,2,3,IS,
+ADD,3,2,IS,
+START,,0,AD,r1
+STOP,,0,AD,r2
+DC,11,0,DL,r3
+DS,12,_,DL,r4
