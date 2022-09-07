@@ -1,4 +1,4 @@
-from File_read import *
+from Assembler_Files.Mot_read import *
 
 for a in return_Mot():
     print(a)

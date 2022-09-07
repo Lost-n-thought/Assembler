@@ -1,1 +1,7 @@
 /tempCodeRunnerFile.py
+Assembler_Files/__pycache__
+**/__pycache__
+**/*.pyc
+Assembler_Files/tempCodeRunnerFile.py
+Assembler_Files/File_read.pyc
+Assembler_Files/__init__.pyc
