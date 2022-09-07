@@ -4,14 +4,15 @@ import os
 def return_Mot():
     dirname = os.path.dirname(__file__)
     filename = os.path.join(dirname, 'MOT.csv')
-        
-    with open(filename,'r') as mot_file:
+    
+    with open(filename,'r' , encoding='utf-8-sig') as mot_file:
         #ignore first line
-        next(mot_file)
+        # next(mot_file)
         
-        # # set global variable mot_dict_key
-        # global mot_dict_key
-        # mot_dict_key = read(mot_file,0)
+        # set global variable mot_dict_key
+        #mot_dict_key  is first line of MOT.csv , containing names of columns
+        global mot_dict_key
+        mot_dict_key = mot_file.readline().rstrip().split(',')       
         
         for lines in mot_file:
             #print(lines.rstrip())
@@ -19,7 +20,7 @@ def return_Mot():
 
 def Mot_dict():
     #Mnemonics,Opcode,Size,Type,Subroutine
-    mot_dict_key = ['Mnemonics','Opcode','Size','Type','Subroutine']
+    #mot_dict_key = ['Mnemonics','Opcode','Size','Type','Subroutine']
     for line in return_Mot():
         list = line.rstrip().split(',')
         dict_y = dict(zip(mot_dict_key,list))
@@ -46,9 +47,3 @@ def isMnemonics(mnemonic):
         if mot['Mnemonics'] == mnemonic:
             return True
     return False
-
-for a in Mot_dict():
-    print(a)
-
-# return_Mot()
-# print(mot_dict_key)
