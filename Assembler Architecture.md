@@ -1,6 +1,15 @@
-Tables - CSV
 
-### ASM file
+
+
+
+### Assembly file Reader
+
+##### Features
+
+1. Supports Comment line
+   1. Comment line start with "#" .
+   2. thery can be white space before "#"
+2. Supports Empty file
 
 #### line splitting
 
@@ -17,7 +26,7 @@ ARRAY DS 10
 END
 ```
 
-line format
+#### line format
 
 | Label                                      | Mnemonics   | operand1                                                         | operand2                                   |
 | ------------------------------------------ | ----------- | ---------------------------------------------------------------- | ------------------------------------------ |
@@ -26,24 +35,11 @@ line format
 | Alphanumeric(must start with letter or __) | Aplhabets   | Alphanumeric(must start with letter or __) or number or [symbol] | Alphanumeric(must start with letter or __) |
 |                                            |             |                                                                  |                                            |
 
-#### Python regex
 
-Label               - '([A-Z0-9]+: )?'
-
-Mnemonics           - '[A-Z]{,4}'
-
-operand1            - '( [A-Z0-9].)?'
-
-operand2            - '(, [A-Z0-9].)?'
-
-operand combined    - '(([A-Z0-9].)(, [A-Z0-9].)?)?'
-
-re.findall(r'([A-Z0-9]+: )?[A-Z]{,4}( [A-Z0-9].)?(, [A-Z0-9].)?', line)
 
 
 
 LC processing
 
  Symbol Table
-
 

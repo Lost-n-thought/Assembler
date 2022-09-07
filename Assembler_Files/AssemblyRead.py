@@ -66,13 +66,16 @@ def asm_file_field_corrected(line_list : list):
     if(mr.isMnemonics(asm_line_dict['label'])):
         asm_line_dict['Mnemonics'],asm_line_dict['Operand1'], asm_line_dict['Operand2'] = asm_line_dict['label'],asm_line_dict['Mnemonics'],asm_line_dict['Operand1']
     
-    return asm_line_dict
+    return [line_list[0],asm_line_dict]
 
-
+#output - two dict of 1- extra info and 2- line data
+# eg
+#[{'line_number': 14}, {'label': None, 'Mnemonics': 'END', 'Operand1': None, 'Operand2': None}]
 def final_asm_line_dict(file_name):
-    for line in assembler_iter(file_name):
-        asm_line_dict = asm_file_field_corrected(line)
-        yield asm_line_dict
+    for line_list in assembler_iter(file_name):
+        asm_line_dict_list = asm_file_field_corrected(line_list)
+        asm_line_dict_list[0] = {'line_number':asm_line_dict_list[0]}
+        yield asm_line_dict_list
 
 # #checking asm_file_field_corrected error handling
 # print(asm_file_field_corrected([1, 'NEXT: ADD ADD, BREG']))
@@ -81,9 +84,9 @@ def final_asm_line_dict(file_name):
 #     print(a)
 
 
-# # final_asm_line_dict('sampleAssembly.asm') testing
-# for i in final_asm_line_dict('sampleAssembly.asm'):
-#     print(i)
+# final_asm_line_dict('sampleAssembly.asm') testing
+for i in final_asm_line_dict('sampleAssembly.asm'):
+    print(i)
     
 # # assembler_iter('sampleAssembly.asm') testing
 # for i in assembler_iter('sampleAssembly.asm'):
