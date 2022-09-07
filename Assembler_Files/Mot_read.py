@@ -47,3 +47,12 @@ def isMnemonics(mnemonic):
         if mot['Mnemonics'] == mnemonic:
             return True
     return False
+
+def get_Mnemonics_attribute(mnemonic , attribute = 'Size'):
+    for mot in Mot_dict():
+        if attribute not in mot_dict_key:
+            raise Exception('Attribute not in mot_dict_key')
+        if mot['Mnemonics'] == mnemonic:
+            return mot[attribute]
+    return None
+
