@@ -85,8 +85,8 @@ def final_asm_line_dict(file_name):
 
 
 # final_asm_line_dict('sampleAssembly.asm') testing
-for i in final_asm_line_dict('sampleAssembly.asm'):
-    print(i)
+# for i in final_asm_line_dict('sampleAssembly.asm'):
+#     print(i)
     
 # # assembler_iter('sampleAssembly.asm') testing
 # for i in assembler_iter('sampleAssembly.asm'):

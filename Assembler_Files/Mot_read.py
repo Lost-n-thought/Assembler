@@ -3,7 +3,7 @@ import os
 
 def return_Mot():
     dirname = os.path.dirname(__file__)
-    filename = os.path.join(dirname, 'MOT.csv')
+    filename = os.path.join(dirname, 'MOT.tsv')
     
     with open(filename,'r' , encoding='utf-8-sig') as mot_file:
         #ignore first line
