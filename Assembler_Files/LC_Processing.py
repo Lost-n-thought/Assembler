@@ -19,7 +19,9 @@ def starting_command(first_line):
             raise Exception('Error in line {}. LC should be positive'.format(first_line[0]['line_number']))
     return LC  
 
-        
+# returns Add LC field in 1st dict_list eg
+# [{'line_number': 12, 'LC': 401}, {'label': 'NUMBER', 'Mnemonics': 'DC', 'Operand1': '5', 'Operand2': None}]
+# [{'line_number': 13, 'LC': 411}, {'label': 'ARRAY', 'Mnemonics': 'DS', 'Operand1': '10', 'Operand2': None}]       
 def LC_processing(asm_name):
     asmfile_iter =AR.final_asm_line_dict(asm_name)
     LC = None
