@@ -12,7 +12,7 @@ def return_Mot():
         # set global variable mot_dict_key
         #mot_dict_key  is first line of MOT.csv , containing names of columns
         global mot_dict_key
-        mot_dict_key = mot_file.readline().rstrip().split(',')       
+        mot_dict_key = mot_file.readline().rstrip().split('\t')       
         
         for lines in mot_file:
             #print(lines.rstrip())
@@ -22,7 +22,7 @@ def Mot_dict():
     #Mnemonics,Opcode,Size,Type,Subroutine
     #mot_dict_key = ['Mnemonics','Opcode','Size','Type','Subroutine']
     for line in return_Mot():
-        list = line.rstrip().split(',')
+        list = line.rstrip().split('\t')
         dict_y = dict(zip(mot_dict_key,list))
         
         #Opcode convert to integer
