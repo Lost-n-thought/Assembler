@@ -4,10 +4,8 @@ import Mot_read as mr
 
 registers_name = ['AREG', 'BREG', 'CREG', 'DREG']
 
-# A iterator that returns a line(string) for each line in the file.
+# A iterator that returns [line number , line] for each line in the file.
 # Ignore empty lines and lines starting with a '#'
-
-
 def assembler_iter(file_name):
     """
     Iterates through the lines of the assembly file and returns the lines as a list.
@@ -16,14 +14,14 @@ def assembler_iter(file_name):
     filename = os.path.join(dirname, '..', file_name)
     # print(filename)
     with open(filename, 'r') as assembly_file:
-        for line in assembly_file:
+        for line_number ,line in enumerate(assembly_file):
             # removes empty lines and comments
             if (line.isspace()) | (line == '\n') | (line.startswith('#')):
                 continue
             line = line.rstrip()
-            yield line
+            yield [line_number +1, line]
 
-
+#Check result of pattern match with line
 def pattern_match(line):
     label_re = '((?P<label>\w+): )?'
     label_Declare_re = '(?P<label>\w+) '
@@ -43,31 +41,50 @@ def pattern_match(line):
             # for 2nd pattern operand2 is not present so we put none in it
             return_dict['Operand2'] = return_dict.get('Operand2', None)
             return return_dict
+    
     return None
 
-# def asm_file_field_corrected(line :str):
-#     """
-#     Corrects the fields of the line in the assembly file.
-#     """
-#     # print(line)
-#     # print(pattern_match(line))
-#     if pattern_match(line) is None:
-#         return None
-#     else:
-#         return_dict = pattern_match(line)
-#         # print(return_dict)
-#         # print(return_dict['Mnemonics'])
-#         # print(mr.isMnemonics(return_dict['Mnemonics']))
-#         if mr.isMnemonics(return_dict['Mnemonics']):
-#             return return_dict
-#         else:
-#             return None
+def asm_file_field_corrected(line_list : list):
+    """
+    Corrects the fields of the line in the assembly file.
+    """
+    asm_line_dict = pattern_match(line_list[1])
+    if asm_line_dict is None:
+        raise Exception('Error in line {} . Line does not follow correct syntax \
+                        . problematic line -\n{}'.format(line_list[0] , line_list[1]))
+    
+    #checking if no of Mnemonics are correct. IE is 1
+    No_of_isMnemonics = sum(mr.isMnemonics(i) for i in asm_line_dict.values())
+    if (No_of_isMnemonics == 0):
+        raise Exception('Error in line {}. Line does not have Mnemonics'.format(line_list[0]))
+    elif(No_of_isMnemonics > 1):
+        raise Exception('Error in line {}. Line has more than one Mnemonics'.format(line_list[0]))
+
     
 
-for a in assembler_iter('sampleAssembly.asm'):
-    print(pattern_match(a))
+    #shifting menmonics to the right if label field has Mnemonics
+    if(mr.isMnemonics(asm_line_dict['label'])):
+        asm_line_dict['Mnemonics'],asm_line_dict['Operand1'], asm_line_dict['Operand2'] = asm_line_dict['label'],asm_line_dict['Mnemonics'],asm_line_dict['Operand1']
+    
+    return asm_line_dict
 
 
+def final_asm_line_dict(file_name):
+    for line in assembler_iter(file_name):
+        asm_line_dict = asm_file_field_corrected(line)
+        yield asm_line_dict
+
+# #checking asm_file_field_corrected error handling
+# print(asm_file_field_corrected([1, 'NEXT: ADD ADD, BREG']))
 
 # for a in mr.Mot_dict():
 #     print(a)
+
+
+# final_asm_line_dict('sampleAssembly.asm') testing
+for i in final_asm_line_dict('sampleAssembly.asm'):
+    print(i)
+    
+# # assembler_iter('sampleAssembly.asm') testing
+# for i in assembler_iter('sampleAssembly.asm'):
+#     print(i)
