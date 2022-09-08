@@ -20,7 +20,7 @@ college project :sweat_smile: system programming assignment
 
 ---
 
-For information on design check [Architecture](Assembler Architecture.md) page
+For information on design check [Architecture](/Assembler%20Architecture.md) page
 
 Programming language used - **Python**
 
