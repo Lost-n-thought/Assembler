@@ -41,18 +41,30 @@ def Mot_dict():
         
             
         yield dict_y
-
-def isMnemonics(mnemonic):
+# checks if Mnemonics is in MOT
+def isMnemonics(mnemonic: str):
     for mot in Mot_dict():
         if mot['Mnemonics'] == mnemonic:
             return True
     return False
 
-def get_Mnemonics_attribute(mnemonic , attribute = 'Size'):
+#Gets Attributes for given Mnemonics
+def get_Mnemonics_attribute(mnemonic :str , attribute = 'Size'):
+
+    if attribute not in next(Mot_dict()):
+        raise Exception('Attribute {} not in mot_dict_key'.format(attribute) )
+    if isMnemonics(mnemonic) is False:
+        raise Exception('Mnemonic {} not in MOT'.format(mnemonic))
+    
     for mot in Mot_dict():
-        if attribute not in mot_dict_key:
-            raise Exception('Attribute not in mot_dict_key')
         if mot['Mnemonics'] == mnemonic:
             return mot[attribute]
-    return None
 
+
+# return dict will all attributes for given Mnemonics
+def return_given_mnemonics_dict(mnemonic :str):
+    for mot in Mot_dict():
+        if mot['Mnemonics'] == mnemonic:
+            return mot
+    else:
+        raise Exception('Mnemonic {} not in MOT'.format(mnemonic))
