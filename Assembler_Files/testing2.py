@@ -5,4 +5,8 @@ a = [1 , dict1]
 
 print(a[1]['K'])
 
-raise Exception('What text can I raise?')
+def genA():
+    for i in range(5):
+        yield i
+a
+print(next(genA()))
