@@ -5,17 +5,28 @@
 ### To Do
 
 - [ ] execute subroutine from MOT file instead of program files
+- [ ] To pass support argument pass for main program (asm = sample.asm and ltorgmode = False)
 - [ ] LTORG support
+  - [ ] Support Ltorg mode by changing a Variable
+
 - [ ] comment can be at the end of line with statements
-- [ ] To implement operands checker foe each Mnemonics
+- [ ] To implement operands checker for each Mnemonics
+  - [ ] Implement Protected Symbols(LT LE ET GE GT for jump). Mnemonics are already protected as 
+
 - [ ] Separate leftover LC Processing from assembly file reader
-- [ ] Learn Hyperlinking within markdown file
+- [x] ~~Learn Hyperlinking within markdown file~~
 
 
 
 ## <u>Assembler Design</u>
 
+1. It is 2 pass Assembler
 
+   ![Overview of Assembler](./Documents_Files/Overview.png)
+
+   
+
+   
 
 ### Program Files
 
@@ -36,6 +47,8 @@
       def isMnemonics(mnemonic: str):
       def return_given_mnemonics_dict(mnemonic :str):
       ```
+
+### Pass 1 Files
 
 #### 	Assembly File Reader
 
@@ -58,7 +71,7 @@
 2. Supports `ORG` commands
 3. Deals with `DC` and `DS` Statement
 
-
+### Pass 2 Files
 
 ------
 
@@ -84,9 +97,8 @@ or  `[Label[:] ]Menmonics[ Operand1[, Operand2]]` where `[]` fields are Optional
 
 #### 		Single line Error correction
 
-### 
+1. List line No  of the command with error, in Exception reporting
 
-### 
 
 
 

@@ -49,7 +49,7 @@ def isMnemonics(mnemonic: str):
     return False
 
 #Gets Attributes for given Mnemonics
-def get_Mnemonics_attribute(mnemonic :str , attribute = 'Size'):
+def get_Mnemonics_attribute(mnemonic :str , attribute : str = 'Size'):
 
     if attribute not in next(Mot_dict()):
         raise Exception('Attribute {} not in mot_dict_key'.format(attribute) )
