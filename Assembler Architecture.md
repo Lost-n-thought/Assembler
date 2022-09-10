@@ -9,7 +9,8 @@
 - [ ] LTORG support
   - [ ] Support Ltorg mode by changing a Variable
 
-- [ ] comment can be at the end of line with statements
+- [ ] Check path return by `os.path` module when run inside module
+- [ ] comment can be at the end of line with statements `Statemnt  #comment123`
 - [ ] To implement operands checker for each Mnemonics
   - [ ] Implement Protected Symbols(LT LE ET GE GT for jump). Mnemonics are already protected as 
 
@@ -71,6 +72,26 @@
 2. Supports `ORG` commands
 3. Deals with `DC` and `DS` Statement
 
+
+
+#### Symbol Table Generation
+
+##### Protected Words
+
+1. All Mnemonics
+2. For Branch condition [LE , LT , ET , GT , GE]
+3. Registers Name [AREG, BREG, CREG, DREG]
+
+##### Two Types of Symbol
+
+1. Address Symbols
+2. Variable Symbols
+
+##### Symbols Uses Type
+
+1. Declaration
+2. Usage
+
 ### Pass 2 Files
 
 ------
@@ -94,6 +115,10 @@ or  `[Label[:] ]Menmonics[ Operand1[, Operand2]]` where `[]` fields are Optional
 #### 		Whole ASM program error correction
 
 1. `START` must be first command
+2. Label
+   - [ ] Todo
+
+3. 
 
 #### 		Single line Error correction
 
