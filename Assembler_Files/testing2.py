@@ -16,17 +16,18 @@ import os
 dirname = os.path.dirname(__file__)
 filename = os.path.join(dirname, 'otest.txt')
 
-testfile = fileinput.FileInput(filename , inplace=True)
 
-for line in testfile:   
-    if(testfile.filelineno()== 4):
-        print(4444)
-    else:
-        print(line.rstrip())
-testfile.close()
+# testfile = fileinput.FileInput(filename , inplace=True)
 
-# with open(filename, 'r+', encoding='utf-8-sig') as testfile:
-#     for line in testfile:
-#         print(SG.convert_line_to_dict(line))
+# for line in testfile:   
+#     if(testfile.filelineno()== 4):
+#         print(line.rstrip())
+#     else:
+#         print(line)
+# testfile.close()
 
+# with open(filename, 'a', encoding='utf-8-sig') as testfile:
+#     testfile.write('ffff')
+#     testfile.write('11111\n')
+#     testfile.write('222222')
             

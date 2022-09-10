@@ -11,8 +11,10 @@
 
 - [ ] Check path return by `os.path` module when run inside module
 - [ ] comment can be at the end of line with statements `Statemnt  #comment123`
+- [ ] Implement `warning` library instead of print statement
 - [ ] To implement operands checker for each Mnemonics
   - [ ] Implement Protected Symbols(LT LE ET GE GT for jump). Mnemonics are already protected as 
+  - [ ] Operand1 and Operand2 in binary (11~2~) = 3 op1 present (10~2~)  both absent(00~2~) = 0
 
 - [ ] Separate leftover LC Processing from assembly file reader
 - [x] ~~Learn Hyperlinking within markdown file~~
@@ -48,6 +50,8 @@
       def isMnemonics(mnemonic: str):
       def return_given_mnemonics_dict(mnemonic :str):
       ```
+
+3.  
 
 ### Pass 1 Files
 
@@ -98,15 +102,20 @@
 
 
 
-### Assembly Language reference
+## Assembly Language reference
 
-### 	Statements
+#### 	Statements
 
 Standard Statements - `Label: Menmonics Operand1, Operand2`
 
 or  `[Label[:] ]Menmonics[ Operand1[, Operand2]]` where `[]` fields are Optional
 
+#### MOT(Mnemonics Opcode Table)
 
+1. Fields of MOT Table are
+   1. Mnemonics
+   2. Opcode
+   3. 
 
 
 
@@ -118,7 +127,9 @@ or  `[Label[:] ]Menmonics[ Operand1[, Operand2]]` where `[]` fields are Optional
 2. Label
    - [ ] Todo
 
-3. 
+3. Symbol
+   1. 
+
 
 #### 		Single line Error correction
 

@@ -18,7 +18,7 @@ def return_Mot():
             #print(lines.rstrip())
             yield lines.rstrip()
 
-def Mot_dict():
+def Mot_dict(): #dict generator
     #Mnemonics,Opcode,Size,Type,Subroutine
     #mot_dict_key = ['Mnemonics','Opcode','Size','Type','Subroutine']
     for line in return_Mot():
@@ -37,10 +37,9 @@ def Mot_dict():
         else:
             dict_y['Size'] = int(dict_y['Size'])
             
-        # set empty subroutine to None
-        
-            
+        # set empty subroutine to None  
         yield dict_y
+        
 # checks if Mnemonics is in MOT
 def isMnemonics(mnemonic: str):
     for mot in Mot_dict():
@@ -48,7 +47,7 @@ def isMnemonics(mnemonic: str):
             return True
     return False
 
-#Gets Attributes for given Mnemonics
+#Gets Attributes(any field fo given mnemonics) for given Mnemonics
 def get_Mnemonics_attribute(mnemonic :str , attribute : str = 'Size'):
 
     if attribute not in next(Mot_dict()):
@@ -62,7 +61,7 @@ def get_Mnemonics_attribute(mnemonic :str , attribute : str = 'Size'):
 
 
 # return dict will all attributes for given Mnemonics
-def return_given_mnemonics_dict(mnemonic :str):
+def return_given_mnemonics_dict(mnemonic :str) -> dict:
     for mot in Mot_dict():
         if mot['Mnemonics'] == mnemonic:
             return mot
