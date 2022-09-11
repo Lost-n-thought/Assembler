@@ -60,7 +60,6 @@ def asm_file_field_corrected(line_list : list):
     elif(No_of_isMnemonics > 1):
         raise Exception('Error in line {}. Line has more than one Mnemonics'.format(line_list[0]))
 
-    
 
     #shifting menmonics to the right if label field has Mnemonics
     if(mr.isMnemonics(asm_line_dict['label'])):
@@ -76,6 +75,13 @@ def final_asm_line_dict(file_name):
         asm_line_dict_list = asm_file_field_corrected(line_list)
         asm_line_dict_list[0] = {'line_number':asm_line_dict_list[0]}
         yield asm_line_dict_list
+
+
+
+
+
+
+
 
 # #checking asm_file_field_corrected error handling
 # print(asm_file_field_corrected([1, 'NEXT: ADD ADD, BREG']))

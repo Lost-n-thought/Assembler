@@ -4,18 +4,39 @@
 
 ### To Do
 
+- [ ] Make working v1.0
+
 - [ ] execute subroutine from MOT file instead of program files
+- [ ] To pass support argument pass for main program (asm = sample.asm and ltorgmode = False)
 - [ ] LTORG support
-- [ ] comment can be at the end of line with statements
-- [ ] To implement operands checker foe each Mnemonics
+  - [ ] Support Ltorg mode by changing a Variable
+
+- [ ] Check path return by `os.path` module when run inside module
+- [ ] comment can be at the end of line with statements `Statemnt  #comment123`
+- [x] Implement `warning` library instead of print statement
+- [ ] `END` must be last command and only used once
+- [ ] Uppercase ? How to deal with case?
+  - [ ] Mnemonics , Protected Values must be UPPER case .
+  - [ ] code can't be similar to them in any case
+
+- [ ] To implement operands checker for each Mnemonics
+  - [ ] Implement Protected Symbols(LT LE ET GE GT for jump). Mnemonics are already protected as 
+  - [ ] Operand1 and Operand2 in binary (11~2~) = 3 op1 present (10~2~)  both absent(00~2~) = 0
+
 - [ ] Separate leftover LC Processing from assembly file reader
-- [ ] Learn Hyperlinking within markdown file
+- [x] ~~Learn Hyperlinking within markdown file~~
 
 
 
 ## <u>Assembler Design</u>
 
+1. It is 2 pass Assembler
 
+   ![Overview of Assembler](./Documents_Files/Overview.png)
+
+   
+
+   
 
 ### Program Files
 
@@ -36,6 +57,10 @@
       def isMnemonics(mnemonic: str):
       def return_given_mnemonics_dict(mnemonic :str):
       ```
+
+3.  
+
+### Pass 1 Files
 
 #### 	Assembly File Reader
 
@@ -60,19 +85,44 @@
 
 
 
+#### Symbol Table Generation
+
+##### Protected Words
+
+1. All Mnemonics
+2. For Branch condition [LE , LT , ET , GT , GE]
+3. Registers Name [AREG, BREG, CREG, DREG]
+
+##### Two Types of Symbol
+
+1. Address Symbols
+2. Variable Symbols
+
+##### Symbols Uses Type
+
+1. Declaration
+2. Usage
+
+### Pass 2 Files
+
 ------
 
 
 
-### Assembly Language reference
+## Assembly Language reference
 
-### 	Statements
+#### 	Statements
 
 Standard Statements - `Label: Menmonics Operand1, Operand2`
 
 or  `[Label[:] ]Menmonics[ Operand1[, Operand2]]` where `[]` fields are Optional
 
+#### MOT(Mnemonics Opcode Table)
 
+1. Fields of MOT Table are
+   1. Mnemonics
+   2. Opcode
+   3. 
 
 
 
@@ -80,13 +130,19 @@ or  `[Label[:] ]Menmonics[ Operand1[, Operand2]]` where `[]` fields are Optional
 
 #### 		Whole ASM program error correction
 
-1. `START` must be first command
+1. `START` must be first command and only used once
+2. `END` must be last command and only used once
+3. Label
+   - [ ] Todo
+
+4. Symbol
+   1. 
+
 
 #### 		Single line Error correction
 
-### 
+1. List line No  of the command with error, in Exception reporting
 
-### 
 
 
 

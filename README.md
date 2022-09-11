@@ -16,7 +16,17 @@ college project :sweat_smile: system programming assignment
 
 3. Used git as much as possible
 
-   
+4. 
+
+
+#### Things Learned
+
+1. Custom Exception
+2. Annotation
+3. File line Editing(not replacing the whole file) using `fileinput`module
+4. Learned `os.path` library
+
+
 
 ---
 
