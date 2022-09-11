@@ -1,7 +1,8 @@
 import os
+from types import GeneratorType
 
 
-def return_Mot():
+def return_Mot() -> GeneratorType:
     dirname = os.path.dirname(__file__)
     filename = os.path.join(dirname, 'MOT.tsv')
     

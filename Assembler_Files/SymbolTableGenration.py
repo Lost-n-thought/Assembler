@@ -1,5 +1,6 @@
 import fileinput as fi
 import os
+import warnings
 
 # protected keywords
 # 1. Branch condition [LE , LT , ET , GT , GE]
@@ -72,7 +73,7 @@ def symbol_protected_check(symbol :str , LineNo :int):
 
 
 def create_symbol_table():
-    with open(filename, 'w', encoding='utf-8-sig'):
+    with open(filename, 'w'):
         pass
 
 
@@ -84,7 +85,7 @@ def convert_dict_into_line(dict):
 
 #gives a  line_dict
 def symbol_line_lineDict(symbol):
-    with open(filename, 'r', encoding='utf-8-sig') as symbol_file:
+    with open(filename, 'r') as symbol_file:
         for line in symbol_file:
             line = convert_line_to_dict(line)
             if line['Symbol'] == symbol:
@@ -106,7 +107,7 @@ def is_symbol_address(line_dict :dict) -> bool:
 
 
 def append_line(line_dict :dict):
-    with open(filename, 'a', encoding='utf-8-sig') as symbol_file:
+    with open(filename, 'a') as symbol_file:
         symbol_file.write(convert_dict_into_line(line_dict) + '\n')
 
 def change_line(line_dict :dict):
@@ -165,6 +166,20 @@ def symbol_used(symbol :str, used_as :str , LineNo :int = None):
         # change isUsed to True in existing line
         line_dict['isUsed'] = 'True'
         change_line(line_dict)
+
+
+#todo: check if symbol is declared and used
+# if symbol is declared and used then do nothing
+# if symbol is declared and not used then send warning
+# if symbol is not declared and used then Exception
+def symbol_table_done():
+    with open(filename, 'r', ) as symbol_file:
+        for line in symbol_file:
+            line = convert_line_to_dict(line)
+            if line['isDeclared'] == 'False':
+                raise Exception('Symbol "{}" is not declared but used'.format(line['Symbol']))
+            if line['isUsed'] == 'False':
+                warnings.warn('Symbol "{}" is not used'.format(line['Symbol']))
 
 # line = 'A\t1\tTrue\tFalse\tVariable\n'
 # print(convert_line_to_dict(line))

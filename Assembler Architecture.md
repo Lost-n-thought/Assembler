@@ -4,6 +4,8 @@
 
 ### To Do
 
+- [ ] Make working v1.0
+
 - [ ] execute subroutine from MOT file instead of program files
 - [ ] To pass support argument pass for main program (asm = sample.asm and ltorgmode = False)
 - [ ] LTORG support
@@ -11,7 +13,12 @@
 
 - [ ] Check path return by `os.path` module when run inside module
 - [ ] comment can be at the end of line with statements `Statemnt  #comment123`
-- [ ] Implement `warning` library instead of print statement
+- [x] Implement `warning` library instead of print statement
+- [ ] `END` must be last command and only used once
+- [ ] Uppercase ? How to deal with case?
+  - [ ] Mnemonics , Protected Values must be UPPER case .
+  - [ ] code can't be similar to them in any case
+
 - [ ] To implement operands checker for each Mnemonics
   - [ ] Implement Protected Symbols(LT LE ET GE GT for jump). Mnemonics are already protected as 
   - [ ] Operand1 and Operand2 in binary (11~2~) = 3 op1 present (10~2~)  both absent(00~2~) = 0
@@ -123,11 +130,12 @@ or  `[Label[:] ]Menmonics[ Operand1[, Operand2]]` where `[]` fields are Optional
 
 #### 		Whole ASM program error correction
 
-1. `START` must be first command
-2. Label
+1. `START` must be first command and only used once
+2. `END` must be last command and only used once
+3. Label
    - [ ] Todo
 
-3. Symbol
+4. Symbol
    1. 
 
 
