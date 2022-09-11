@@ -1,10 +1,12 @@
-﻿Mnemonics	Opcode	Size	Type	DS_routine				
-JUMP	2	3	IS					
-ADD	3	2	IS					
-SUB	4	2	IS					
-START		0	AD	r1				
-JP	6	2	IS					
-END		0	AD	r2				
-DC	11	1	DL	DC_routine				
-DS	12	_	DL	r4		1		
-ORG		0	AD	r11				
+﻿Mnemonics	Opcode	Size	Type	Type_id	DS_routine				
+JUMP	2	3	IS	10					
+ADD	3	2	IS	1					
+SUB	4	2	IS	2					
+MUL	5	4	IS	3					
+DIV	6	4	IS	4					
+JP	6	2	IS	11					
+DC	11	1	DL	1	DC_routine				
+DS	12	_	DL	2	r4		1		
+START		0	AD	1	r1				
+END		0	AD	10	r2				
+ORG		0	AD	2	r11				

@@ -121,6 +121,13 @@ def line_dict_list_Operand_identified(file_name):
     for asm_line_dict_list in asm_line_gen:
         line_dict = asm_line_dict_list[1]
         properties_dict = asm_line_dict_list[0]
+        
+        #Mnemonics
+        MnemonicsIC = '({} {})'.format(mr.get_Mnemonics_attribute(
+            line_dict['Mnemonics'],'Type') , mr.get_Mnemonics_attribute(
+            line_dict['Mnemonics'],'Type_id'))
+        
+        properties_dict['MnemonicsIC']= properties_dict.get('MnemonicsIC', MnemonicsIC)
 
         #operand check
         for operand_name in ['Operand1' , 'Operand2']:
@@ -145,7 +152,7 @@ def line_dict_list_Operand_identified(file_name):
         
         asm_line_dict_list=[properties_dict,asm_line_dict_list[1]]
         #return Example
-        #[{'line_number': 14 'Operand1IC':'(A , 10)',Operand2IC':'(c , 10)'}, {'label': None, 'Mnemonics': 'END',
+        #[{'line_number': 14,'MnemonicsIC' 'Operand1IC':'(A , 10)',Operand2IC':'(c , 10)'}, {'label': None, 'Mnemonics': 'END',
         yield asm_line_dict_list
          
 
