@@ -2,37 +2,45 @@
 
 ### Purpose
 
-To convert Psedo assembly language to machine code using - **2 pass assembler**.
+To convert Psedo assembly language to machine code using - **2 pass
+assembler**.
 
 #### Why?
 
-college project :sweat_smile: system programming assignment
+college project 😅 system programming assignment
 
 #### Extra work
 
-1. Did multi file project
+1.  Did multi file project
 
-2. Made a module
+2.  Made a module
 
-3. Used git as much as possible
+3.  Used git as much as possible
 
-4. 
-
+4.  
 
 #### Things Learned
 
-1. Custom Exception
-2. Annotation
-3. File line Editing(not replacing the whole file) using `fileinput`module
-4. Learned `os.path` library
-5. Learned `Warnings` module use
+1.  Multi File Project
 
+2.  User Module
 
+3.  Custom Exception
 
----
+4.  Annotation
 
-For information on design check [Architecture](/Assembler%20Architecture.md) page
+5.  File line Editing(not replacing the whole file) using
+    `fileinput`module
+
+6.  Learned `os.path` library
+
+7.  Learned `Warnings` module use
+
+------------------------------------------------------------------------
+
+For information on design check
+[Architecture](/Assembler%20Architecture.md) page
 
 Programming language used - **Python**
 
-Using python convert assemblt languge
+Using Assembler convert assembly languge to Machine code

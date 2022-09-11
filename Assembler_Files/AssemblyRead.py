@@ -47,6 +47,8 @@ def _pattern_match(line):
     
     return None
 
+# def is_cons
+
 def _asm_file_field_corrected(line_list : list[int , str]) -> list[dict , dict]:
     """
     Corrects the fields of the line in the assembly file.
@@ -75,11 +77,13 @@ def _asm_file_field_corrected(line_list : list[int , str]) -> list[dict , dict]:
     
     #Makes dict of extra info like {'line_number': 14}
     properties_dict = {'line_number':line_list[0]}
+    asm_line_dict_list = [properties_dict,asm_line_dict]
+    
     
     #return Example 
     #[{'line_number': 14}, {'label': None, 'Mnemonics': 'END', 
     # 'Operand1': None, 'Operand2': None}]
-    return [properties_dict,asm_line_dict]
+    return asm_line_dict_list
 
 #output - two dict of 1- extra info and 2- line data
 # eg

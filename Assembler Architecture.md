@@ -1,193 +1,281 @@
-[TOC]
+<div id="toc">
 
+  [To Do](#to-do)  
+ [Assembler Design](#assembler-design)  
+  [Program Files](#program-files)  
+   [MOT table reader](#mot-table-reader)  
+  [Pass 1 Files](#pass-1-files)  
+   [Assembly File Reader](#assembly-file-reader)  
+   [LC Processing](#lc-processing)  
+   [Symbol Table Generation](#symbol-table-generation)  
+    [Protected Words](#protected-words)  
+  [Pass 2 Files](#pass-2-files)  
+  [Error Checking](#error-checking)  
+   [Whole ASM program error
+correction](#whole-asm-program-error-correction)  
+   [Single line Error correction](#single-line-error-correction)  
+ [Assembly Language reference](#assembly-language-reference)  
+   [Statements](#statements)  
+   [Mnemonics Types](#mnemonics-types)  
+    [AD](#ad)  
+    [IS](#is)  
+    [DL](#dl)  
+    [Fields of MOT Table / Attributes of
+Mnemonics](#fields-of-mot-table--attributes-of-mnemonics)  
+   [Symbol / Label](#symbol--label)  
+    [Two Types of Symbol](#two-types-of-symbol)  
+    [Symbols Uses Type](#symbols-uses-type)  
+   [Operand Types](#operand-types)  
+    [[Label](#symbol--label)](#label)  
+    [Register](#register)  
+    [Constant](#constant)  
+    [Literal](#literal)
 
+</div>
 
 ### To Do
 
-- [ ] Make working v1.0
+- Make working v1.0
 
-- [ ] execute subroutine from MOT file instead of program files
-- [ ] To pass support argument pass for main program (asm = sample.asm and ltorgmode = False)
-- [ ] LTORG support
-  - [ ] Support Ltorg mode by changing a Variable
+- execute subroutine from MOT file instead of program files
 
-- [ ] Check path return by `os.path` module when run inside module
-- [x] comment can be at the end of line with statements `Statemnt  #comment123`
-- [x] Implement `warning` library instead of print statement
-- [ ] `START` and `END` must be only used once
-  - [ ] `START` must be first
-  - [ ] `END` must be last
+- To pass support argument pass for main program (asm = sample.asm and
+  ltorgmode = False)
 
-- [ ] Uppercase ? How to deal with case?
-  - [ ] Mnemonics , Protected Values must be UPPER case .
-  - [ ] code can't be similar to them in any case
+- LTORG support
 
-- [ ] To implement operands checker for each Mnemonics
-  - [ ] Implement Protected Symbols(LT LE ET GE GT for jump). Mnemonics are already protected as 
-  - [ ] Operand1 and Operand2 in binary (11~2~) = 3 op1 present (10~2~)  both absent(00~2~) = 0
+  - Support Ltorg mode by changing a Variable
 
-- [ ] Separate leftover LC Processing from assembly file reader
-- [x] ~~Learn Hyperlinking within markdown file~~
+- Check path return by `os.path` module when run inside module
 
+- comment can be at the end of line with statements
+  `Statemnt  #comment123`
 
+- Implement `warning` library instead of print statement
 
-## <u>Assembler Design</u>
+- `START` and `END` must be only used once
 
-1. It is 2 pass Assembler
+  - `START` must be first
 
-   ![Overview of Assembler](./Documents_Files/Overview.png)
+  - `END` must be last
 
-   
+- Uppercase ? How to deal with case?
 
-   
+  - Mnemonics , Protected Values must be UPPER case .
+
+  - code can't be similar to them in any case
+
+- To implement operands checker for each Mnemonics
+
+  - Implement Protected Symbols(LT LE ET GE GT for jump). Mnemonics are
+    already protected as
+
+  - Operand1 and Operand2 in binary (11<sub>2</sub>) = 3 op1 present
+    (10<sub>2</sub>) both absent(00<sub>2</sub>) = 0
+
+- Separate leftover LC Processing from assembly file reader
+
+- ~~Learn Hyperlinking within markdown file~~
+
+## Assembler Design
+
+1.  It is 2 pass Assembler
+
+    ![](/home/altra/Akash/Programming/System%20Programming/System%20Programming%20Code/Assembler/Documents_Files/Overview.png)
 
 ### Program Files
 
-#### 	MOT table reader
+#### MOT table reader
 
-1. it reads mot table - which is in file format TSV (tab separated values)
+1.  it reads mot table - which is in file format TSV (tab separated
+    values)
 
-2.  provides functions 
+2.  provides functions
 
-   1. For getting other values from given Mnemonics 
+    1.  For getting other values from given Mnemonics
 
-   2. Checking if Mnemonics is valid or not
+    2.  Checking if Mnemonics is valid or not
 
-   3. Return dict with all attributes of given Mnemonics
+    3.  Return dict with all attributes of given Mnemonics
 
-      ```python
-      def get_Mnemonics_attribute(mnemonic :str , attribute = 'Size'):
-      def isMnemonics(mnemonic: str):
-      def return_given_mnemonics_dict(mnemonic :str):
-      ```
+        ``` python
+        def get_Mnemonics_attribute(mnemonic :str , attribute = 'Size'):
+        def isMnemonics(mnemonic: str):
+        def return_given_mnemonics_dict(mnemonic :str):
+        ```
 
 3.  
 
 ### Pass 1 Files
 
-#### 	Assembly File Reader
+#### Assembly File Reader
 
-1. It reads Assembly (asm) file .
-2. True 1 pass reader
-   1. It reads by iterator so each line is only read once thought out whole program
-3. Supports Comments
-   1. Comment line start with "#" .
-   2. there can be white space before "#"
-   3. removes comment part of line , if it contains both statement and comment
-      `Statement #comment`
-4. Supports Empty Line
-5. Splits the Statement into Label , Mnemonics , Operand1 and Operand2 fields
-6. [Error Checks Each line](#Single line Error correction)
-7. [Error checks some overall Structure](#Whole ASM program error correction)
+1.  It reads Assembly (asm) file .
 
+2.  True 1 pass reader
 
+    1.  It reads by iterator so each line is only read once thought out
+        whole program
 
-#### 	LC Processing
+3.  Supports Comments
 
-1. Supports `START` and `START 200` like commands
-2. Supports `ORG` commands
-3. Deals with `DC` and `DS` Statement
+    1.  Comment line start with "#" .
 
+    2.  there can be white space before "#"
 
+    3.  removes comment part of line , if it contains both statement and
+        comment  
+        `Statement #comment`
+
+4.  Supports Empty Line
+
+5.  Splits the Statement into Label , Mnemonics , Operand1 and Operand2
+    fields
+
+6.  [Error Checks Each line](#single-line-error-correction)
+
+7.  [Error checks some overall
+    Structure](#whole-asm-program-error-correction)
+
+#### LC Processing
+
+1.  Supports `START` and `START 200` like commands
+
+2.  Supports `ORG` commands
+
+3.  Deals with `DC` and `DS` Statement
 
 #### Symbol Table Generation
 
 ##### Protected Words
 
-1. All Mnemonics
-2. For Branch condition [LE , LT , ET , GT , GE]
-3. Registers Name [AREG, BREG, CREG, DREG]
+1.  All Mnemonics
 
-##### Two Types of Symbol
+2.  For Branch condition \[LE , LT , ET , GT , GE\]
 
-1. Address Symbols
-2. Variable Symbols
-
-##### Symbols Uses Type
-
-1. Declaration
-2. Usage
+3.  Registers Name \[AREG, BREG, CREG, DREG\]
 
 ### Pass 2 Files
 
-------
+------------------------------------------------------------------------
 
+### Error Checking
 
+#### Whole ASM program error correction
+
+1.  `START` must be first command and only used once
+
+2.  `END` must be last command and only used once
+
+3.  Label
+
+    - Todo
+
+4.  Symbol
+
+    1.  
+
+#### Single line Error correction
+
+1.  List line No of the command with error, in Exception reporting
+
+------------------------------------------------------------------------
 
 ## Assembly Language reference
 
-#### 	Statements
+#### Statements
 
 Standard Statements - `Label: Menmonics Operand1, Operand2`
 
-or  `[Label[:] ]Menmonics[ Operand1[, Operand2]]` where `[]` fields are Optional
+or `[Label[:] ]Menmonics[ Operand1[, Operand2]]` where `[]` fields are
+Optional
 
-#### MOT(Mnemonics Opcode Table)
+#### Mnemonics Types
 
-1. Fields of MOT Table are
-   1. Mnemonics
-   2. Opcode
-   3. 
+##### AD
 
+1.  `START`
 
+2.  `ORG`
 
-### 	Error Checking
+3.  `LTORG`
 
-#### 		Whole ASM program error correction
+4.  `END`
 
-1. `START` must be first command and only used once
-2. `END` must be last command and only used once
-3. Label
-   - [ ] Todo
+5.  
 
-4. Symbol
-   1. 
+##### IS
 
+1.  ###### Branch
 
-#### 		Single line Error correction
+    1.  `JUMP [Branch_condiction] , Symbol(Address)` or
+        `JUMP Symbol(Address)`
 
-1. List line No  of the command with error, in Exception reporting
+2.  ###### Arithmetic
 
+    1.  `ADD Operand1 , Operand2`
 
+    2.  `SUB Operand1 , Operand2`
 
+    3.  `MUL Operand1 , Operand2`
 
-#### line splitting
+    4.  `DIV Operand1 , Operand2`
 
-```
-START 200
-NEXT: ADD AREG, BREG
-SUB AREG, NUMBER
-ADD BREG , 5
+    5.  `INC Operand1`
 
-JUMP NEXT
-NUMBER DC 5
-CONS1 DC 1
-ARRAY DS 10
-END
-```
+    6.  `DEC Operand1`
 
-#### line format
+3.  ###### Moving
 
-| Label                                      | Mnemonics   | operand1                                                         | operand2                                   |
-| ------------------------------------------ | ----------- | ---------------------------------------------------------------- | ------------------------------------------ |
-| [Label[:] ]                                | Mnemonics   | [operand1]                                                       | [, operand2]                               |
-| Anylength                                  | max4letters | Anylength                                                        | Anylength                                  |
-| Alphanumeric(must start with letter or __) | Aplhabets   | Alphanumeric(must start with letter or __) or number or [symbol] | Alphanumeric(must start with letter or __) |
-|                                            |             |                                                                  |                                            |
+    1.  `MOVER Register , [Operand2]`
 
-#### Operation type
+##### DL
 
-1. In all IS staements  only **Operand1** changes **if any**
+##### Fields of MOT Table / Attributes of Mnemonics
 
-##### Type - IS 2oprands
+1.  Mnemonics
 
-eg MOVE A , B
+2.  Opcode
 
-operand1 must be label or Register
+3.  Size
 
-​					
+4.  Type
 
-| Operrand 1                | Operand 2               |
-| ------------------------- | ----------------------- |
-| Label(address)or Register | label register constant |
+5.  DS_routine ?
 
+#### Symbol / Label
+
+##### Two Types of Symbol
+
+1.  Address Symbols
+
+2.  Variable Symbols
+
+##### Symbols Uses Type
+
+1.  Declaration
+
+2.  Usage(Mnemonics Opcode Table)
+
+#### Operand Types
+
+| Operand 1                          | Operand 2                                                 |
+|------------------------------------|-----------------------------------------------------------|
+| Label(Address or Data) or Register | label(Address or Data) or register or constant or Literal |
+| May change                         | Does not Change                                           |
+
+##### [Label](#symbol--label)
+
+##### Register
+
+1.   `AREG`, `BREG`, `CREG`, `DREG`
+
+##### Constant
+
+1.   +ve Whole Number
+
+##### Literal
+
+1.  Used in only older system which need `LTORG` support
+
+2.  in form of `='<constant>'` eg. `='5'`
