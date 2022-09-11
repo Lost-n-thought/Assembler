@@ -17,18 +17,21 @@
 
 - [ ] Check path return by `os.path` module when run inside module
 
-- [x] comment can be at the end of line with statements `Statemnt  #comment123`
+- [x] ~~comment can be at the end of line with statements `Statemnt  #comment123`~~
 
-- [x] Implement `warning` library instead of print statement
+- [x] ~~Implement `warning` library instead of print statement~~
 
 - [ ] `START` and `END` must be only used once
 
   - [ ] `START` must be first
   - [ ] `END` must be last
 
-- [x] Uppercase ? How to deal with case?
-  - [x] Mnemonics , Protected Values must be UPPER case .
-  - [x] code can't be similar to them in any case
+- [x] ~~Uppercase ? How to deal with case?~~
+
+  - [x] ~~Mnemonics , Protected Values must be UPPER case .~~
+  - [x] ~~code can't be similar to them in any case~~
+
+- [ ] Variable +5 for DS type
 
 - [ ] To implement operands checker for each Mnemonics
   - [x] Implement Protected Symbols(LT LE ET GE GT for jump). Mnemonics are already protected as 

@@ -4,7 +4,7 @@ import Mot_read as MR
 asm_name = 'sampleAssembly.asm'
 
 #check if starting command is correct IE "START"
-def starting_command(first_line):
+def _starting_command(first_line):
     LC = None
     
     if (first_line[1]['Mnemonics'] != 'START'):
@@ -22,11 +22,11 @@ def starting_command(first_line):
 # returns Add LC field in 1st dict_list eg
 # [{'line_number': 12, 'LC': 401}, {'label': 'NUMBER', 'Mnemonics': 'DC', 'Operand1': '5', 'Operand2': None}]
 # [{'line_number': 13, 'LC': 411}, {'label': 'ARRAY', 'Mnemonics': 'DS', 'Operand1': '10', 'Operand2': None}]       
-def LC_processing(asm_name):
-    asmfile_iter =AR.final_asm_line_dict(asm_name)
+def LC_processing(asmfile_iter):
+    
     LC = None
     first_line = next(asmfile_iter)
-    LC = starting_command(first_line)
+    LC = _starting_command(first_line)
     #print(LC)
     
     for line in asmfile_iter:

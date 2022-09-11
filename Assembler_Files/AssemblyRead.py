@@ -1,7 +1,8 @@
 import os
 import re
 import Mot_read as mr
-
+import SymbolTableGenration as stg
+import LC_Processing as lc
 
 # A iterator that returns [line number , line] for each line in the file.
 # Ignore empty lines and lines starting with a '#'
@@ -47,8 +48,32 @@ def _pattern_match(line):
     
     return None
 
-# def is_cons
+def is_constant(operand):
+    if(operand.isdigit()):
+        return True
+    else:
+        return False
 
+def is_register(operand):
+    if(operand in mr.registers_name):
+        return True
+    else:
+        return False
+    
+def register_index(register):
+    return mr.registers_name.index(register)
+
+def is_BranchCondition(operand):
+    if(operand in mr.Branch_condition):
+        return True
+    else:
+        return False
+def BranchCondition_index(register):
+    return mr.Branch_condition.index(register)
+    
+    
+# takes line_list as input
+# returns list of dicts  / dict_list
 def _asm_file_field_corrected(line_list : list[int , str]) -> list[dict , dict]:
     """
     Corrects the fields of the line in the assembly file.
@@ -66,12 +91,12 @@ def _asm_file_field_corrected(line_list : list[int , str]) -> list[dict , dict]:
         raise Exception('Error in line {}. Line has more than one Mnemonics'.format(line_list[0]))
 
 
-    #shifting menemonics to the right if label field has Mnemonics
+    #shifting mnemonics to the right if label field has Mnemonics
     if(mr.isMnemonics(asm_line_dict['label'])):
         asm_line_dict['Mnemonics'],asm_line_dict['Operand1'], asm_line_dict['Operand2'] = asm_line_dict['label'],asm_line_dict['Mnemonics'],asm_line_dict['Operand1']
     
     #label Checking
-    if (mr.is_word_protected(asm_line_dict['label'] , caseLess=True)):
+    if (asm_line_dict['label'] is not None and mr.is_word_protected(asm_line_dict['label'] , caseLess=True)):
         raise Exception('Error in line {}. Label {} is a reserved word or similar to it'.format(line_list[0] , asm_line_dict['label']))
     
     
@@ -85,14 +110,60 @@ def _asm_file_field_corrected(line_list : list[int , str]) -> list[dict , dict]:
     # 'Operand1': None, 'Operand2': None}]
     return asm_line_dict_list
 
+
+
+
+# takes filename as input
+# returns list of dicts  / dict_list
+def line_dict_list_Operand_identified(file_name):
+    asm_line_gen = line_dict_list_semi_final(file_name)
+    asm_line_gen = lc.LC_processing(asm_line_gen)
+    for asm_line_dict_list in asm_line_gen:
+        line_dict = asm_line_dict_list[1]
+        properties_dict = asm_line_dict_list[0]
+
+        #operand check
+        for operand_name in ['Operand1' , 'Operand2']:
+            operand_name_p = operand_name + 'IC'
+            properties_dict.get(operand_name_p, '')
+            
+            if(line_dict[operand_name] is not None):
+                if(is_constant(line_dict[operand_name])):
+                    properties_dict[operand_name_p] = '(c , {})'.format(line_dict[operand_name])
+                elif(is_register(line_dict[operand_name])):
+                    properties_dict[operand_name_p] = '(r , {})'.format(str(register_index(line_dict[operand_name])))
+                elif(is_BranchCondition(line_dict[operand_name])):
+                    properties_dict[operand_name_p] = '(b , {})'.format(str(BranchCondition_index(line_dict[operand_name])))
+                #fix it
+                else: # it is a symbol
+                    stg.symbol_used(line_dict[operand_name],'Variable' , properties_dict['line_number'])
+                    properties_dict[operand_name_p] = '(A , {})'.format('111')
+            
+        # Label check  
+        if(line_dict['label'] is not None):
+            stg.symbol_defined(line_dict['label'],properties_dict['LC'],'Variable' , properties_dict['line_number'])
+        
+        asm_line_dict_list=[properties_dict,asm_line_dict_list[1]]
+        #return Example
+        #[{'line_number': 14 'Operand1IC':'(A , 10)',Operand2IC':'(c , 10)'}, {'label': None, 'Mnemonics': 'END',
+        yield asm_line_dict_list
+         
+
+
+def line_dict_list_semi_final(file_name):
+    for line_list in _assembler_iter(file_name):
+        yield _asm_file_field_corrected(line_list)    
+
+
+
 #output - two dict of 1- extra info and 2- line data
 # eg
 #[{'line_number': 14}, {'label': None, 'Mnemonics': 'END', 'Operand1': None, 'Operand2': None}]
-def final_asm_line_dict(file_name):
-    for line_list in _assembler_iter(file_name):
-        asm_line_dict_list = _asm_file_field_corrected(line_list)
-        yield asm_line_dict_list
-
+def final_asm_line_dict_list(file_name):
+    
+   return line_dict_list_Operand_identified(file_name)
+    
+    
 
 
 

@@ -1,4 +1,5 @@
 import fileinput as fi
+import Mot_read as mr
 import os
 import warnings
 
@@ -15,10 +16,10 @@ import warnings
 #
 # functions used
     #create_symbol_Table
-    #symbol_used
+    #symbol_used -> return symbol index
         #used_as_Address (in jump)
         #used_as_Variable (in DC and IS statement like ADD , MOVE)
-    #symbol_defined
+    #symbol_defined -> return symbol index
         #defined_as_Address (in jump)
         #defined_as_Variable (in DC and IS statement like ADD , MOVE)
     #symbol_table_done () #to be used at the end of the program
@@ -52,21 +53,14 @@ import warnings
 # UsedAs(Variable or Address), (separated by tab)
 symbol_dict_key = ['Symbol', 'Address', 'isDeclared', 'isUsed' , 'UsedAs']
 
-Branch_condition = ['LE' , 'LT' , 'ET' , 'GT' , 'GE']
-Registers_Name = ['AREG', 'BREG', 'CREG', 'DREG']
-
 
 dirname = os.path.dirname(__file__)
 filename = os.path.join(dirname, '../temp', 'SymbolTable.tsv')
 
-#checks if symbol used is protected 
-def is_symbol_protected(symbol :str) -> bool:
-    return symbol in Branch_condition or symbol in Registers_Name
-
 #checks if symbol used is protected and if it is raised exception
-def symbol_protected_check(symbol :str , LineNo :int):
-    if is_symbol_protected(symbol):
-        raise Exception('{} Symbol used in lineno {} is protected keyword '
+def _symbol_protected_check(symbol :str , LineNo :int):
+    if mr.is_word_protected(symbol , True):
+        raise Exception('{} Symbol used in lineno {} is protected keyword or similar to it '
             ''.format(symbol, LineNo))
 
 
@@ -77,45 +71,45 @@ def create_symbol_table():
         pass
 
 
-def convert_line_to_dict(line):
+def _convert_line_to_dict(line):
     return dict(zip(symbol_dict_key, line.rstrip().split('\t')))
    
-def convert_dict_into_line(dict):
+def _convert_dict_into_line(dict):
     return '\t'.join([str(dict[key]) for key in symbol_dict_key])
 
 #gives a  line_dict
-def symbol_line_lineDict(symbol):
+def _symbol_line_lineDict(symbol):
     with open(filename, 'r') as symbol_file:
         for line in symbol_file:
-            line = convert_line_to_dict(line)
+            line = _convert_line_to_dict(line)
             if line['Symbol'] == symbol:
                 return line
     return None
 
-def is_symbol_declared(line_dict :dict) -> bool:
+def _is_symbol_declared(line_dict :dict) -> bool:
     return line_dict['isDeclared'] == 'True'
 
-def is_symbol_used(line_dict :dict) -> bool:
+def _is_symbol_used(line_dict :dict) -> bool:
     return line_dict['isUsed'] == 'True'
 
-def is_symbol_variable(line_dict :dict) -> bool:
+def _is_symbol_variable(line_dict :dict) -> bool:
     return line_dict['UsedAs'] == 'Variable'
 
-def is_symbol_address(line_dict :dict) -> bool:
+def _is_symbol_address(line_dict :dict) -> bool:
     return line_dict['UsedAs'] == 'Address'
 
 
 
-def append_line(line_dict :dict):
+def _append_line(line_dict :dict):
     with open(filename, 'a') as symbol_file:
-        symbol_file.write(convert_dict_into_line(line_dict) + '\n')
+        symbol_file.write(_convert_dict_into_line(line_dict) + '\n')
 
-def change_line(line_dict :dict):
+def _change_line(line_dict :dict):
     testfile = fi.FileInput(filename , inplace=True)
 
     for line in testfile:
-        if(convert_line_to_dict(line)['Symbol'] == line_dict['Symbol']):
-            print(convert_dict_into_line(line_dict))
+        if(_convert_line_to_dict(line)['Symbol'] == line_dict['Symbol']):
+            print(_convert_dict_into_line(line_dict))
         else:
             print(line.rstrip())
     testfile.close()
@@ -126,13 +120,13 @@ def change_line(line_dict :dict):
 
 def symbol_defined(symbol :str, Address :int , used_as :str , LineNo :int = None):
     
-    symbol_protected_check(symbol, LineNo)
-    line_dict = symbol_line_lineDict(symbol)
+    _symbol_protected_check(symbol, LineNo)
+    line_dict = _symbol_line_lineDict(symbol)
     
     if line_dict is None:#symbol not found
         line_dict = {'Symbol':symbol, 'Address':str(Address), 'isDeclared':'True', 'isUsed':'False', 'UsedAs':used_as}
         # add new entry to symbol table(append)
-        append_line(line_dict)
+        _append_line(line_dict)
                          
     else:#symbol found
         if (line_dict['isDeclared'] == 'True'):
@@ -146,17 +140,17 @@ def symbol_defined(symbol :str, Address :int , used_as :str , LineNo :int = None
         # change isDeclared to True and add Address to existing line
         line_dict['isDeclared'] = 'True'
         line_dict['Address'] = str(Address)
-        change_line(line_dict)
+        _change_line(line_dict)
 
 
 def symbol_used(symbol :str, used_as :str , LineNo :int = None):
-    symbol_protected_check(symbol, LineNo)
-    line_dict = symbol_line_lineDict(symbol)
+    _symbol_protected_check(symbol, LineNo)
+    line_dict = _symbol_line_lineDict(symbol)
     
     if line_dict is None:#symbol not found
         line_dict = {'Symbol':symbol, 'Address':'', 'isDeclared':'False', 'isUsed':'True', 'UsedAs':used_as}
         # add new entry to symbol table(append)
-        append_line(line_dict)
+        _append_line(line_dict)
                          
     else:#symbol found
         if (line_dict['UsedAs'] != used_as):
@@ -165,7 +159,7 @@ def symbol_used(symbol :str, used_as :str , LineNo :int = None):
         
         # change isUsed to True in existing line
         line_dict['isUsed'] = 'True'
-        change_line(line_dict)
+        _change_line(line_dict)
 
 
 #todo: check if symbol is declared and used
@@ -175,7 +169,7 @@ def symbol_used(symbol :str, used_as :str , LineNo :int = None):
 def symbol_table_done():
     with open(filename, 'r', ) as symbol_file:
         for line in symbol_file:
-            line = convert_line_to_dict(line)
+            line = _convert_line_to_dict(line)
             if line['isDeclared'] == 'False':
                 raise Exception('Symbol "{}" is not declared but used'.format(line['Symbol']))
             if line['isUsed'] == 'False':
@@ -184,7 +178,7 @@ def symbol_table_done():
 # line = 'A\t1\tTrue\tFalse\tVariable\n'
 # print(convert_line_to_dict(line))
 
-#create_symbol_table()
+# create_symbol_table()
 
-#symbol_defined('A', 1, 'Variable' , 33)
-#symbol_used('A', 'Address' , 33)
+# symbol_defined('A', 1, 'Variable' , 33)
+# symbol_used('B', 'Address' , 33)
