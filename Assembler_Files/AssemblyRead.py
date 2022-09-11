@@ -125,7 +125,7 @@ def line_dict_list_Operand_identified(file_name):
         #operand check
         for operand_name in ['Operand1' , 'Operand2']:
             operand_name_p = operand_name + 'IC'
-            properties_dict.get(operand_name_p, '')
+            properties_dict[operand_name_p] = properties_dict.get(operand_name_p, '')
             
             if(line_dict[operand_name] is not None):
                 if(is_constant(line_dict[operand_name])):
@@ -136,8 +136,8 @@ def line_dict_list_Operand_identified(file_name):
                     properties_dict[operand_name_p] = '(b , {})'.format(str(BranchCondition_index(line_dict[operand_name])))
                 #fix it
                 else: # it is a symbol
-                    stg.symbol_used(line_dict[operand_name],'Variable' , properties_dict['line_number'])
-                    properties_dict[operand_name_p] = '(A , {})'.format('111')
+                    Symbol_index = stg.symbol_used(line_dict[operand_name],'Variable' , properties_dict['line_number'])
+                    properties_dict[operand_name_p] = '(S , {})'.format(Symbol_index)
             
         # Label check  
         if(line_dict['label'] is not None):

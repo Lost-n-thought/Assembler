@@ -99,10 +99,17 @@ def _is_symbol_address(line_dict :dict) -> bool:
     return line_dict['UsedAs'] == 'Address'
 
 
+def _find_symbol_lineNo(symbol :str):
+    with open(filename, 'r') as symbol_file:
+        for lineno ,line in enumerate(symbol_file):
+            line = _convert_line_to_dict(line)
+            if line['Symbol'] == symbol:
+                return lineno
 
 def _append_line(line_dict :dict):
     with open(filename, 'a') as symbol_file:
         symbol_file.write(_convert_dict_into_line(line_dict) + '\n')
+    return _find_symbol_lineNo(line_dict['Symbol'])
 
 def _change_line(line_dict :dict):
     testfile = fi.FileInput(filename , inplace=True)
@@ -113,12 +120,14 @@ def _change_line(line_dict :dict):
         else:
             print(line.rstrip())
     testfile.close()
-
+    return _find_symbol_lineNo(line_dict['Symbol'])
 
 
 
 
 def symbol_defined(symbol :str, Address :int , used_as :str , LineNo :int = None):
+    
+    Symbol_index = None
     
     _symbol_protected_check(symbol, LineNo)
     line_dict = _symbol_line_lineDict(symbol)
@@ -126,7 +135,7 @@ def symbol_defined(symbol :str, Address :int , used_as :str , LineNo :int = None
     if line_dict is None:#symbol not found
         line_dict = {'Symbol':symbol, 'Address':str(Address), 'isDeclared':'True', 'isUsed':'False', 'UsedAs':used_as}
         # add new entry to symbol table(append)
-        _append_line(line_dict)
+        Symbol_index = _append_line(line_dict)
                          
     else:#symbol found
         if (line_dict['isDeclared'] == 'True'):
@@ -140,17 +149,19 @@ def symbol_defined(symbol :str, Address :int , used_as :str , LineNo :int = None
         # change isDeclared to True and add Address to existing line
         line_dict['isDeclared'] = 'True'
         line_dict['Address'] = str(Address)
-        _change_line(line_dict)
+        Symbol_index = _change_line(line_dict)
+        return Symbol_index
 
 
 def symbol_used(symbol :str, used_as :str , LineNo :int = None):
+    Symbol_index = None
     _symbol_protected_check(symbol, LineNo)
     line_dict = _symbol_line_lineDict(symbol)
     
     if line_dict is None:#symbol not found
         line_dict = {'Symbol':symbol, 'Address':'', 'isDeclared':'False', 'isUsed':'True', 'UsedAs':used_as}
         # add new entry to symbol table(append)
-        _append_line(line_dict)
+        Symbol_index = _append_line(line_dict)
                          
     else:#symbol found
         if (line_dict['UsedAs'] != used_as):
@@ -159,7 +170,8 @@ def symbol_used(symbol :str, used_as :str , LineNo :int = None):
         
         # change isUsed to True in existing line
         line_dict['isUsed'] = 'True'
-        _change_line(line_dict)
+        Symbol_index = _change_line(line_dict)
+    return Symbol_index
 
 
 #todo: check if symbol is declared and used
