@@ -12,9 +12,12 @@
   - [ ] Support Ltorg mode by changing a Variable
 
 - [ ] Check path return by `os.path` module when run inside module
-- [ ] comment can be at the end of line with statements `Statemnt  #comment123`
+- [x] comment can be at the end of line with statements `Statemnt  #comment123`
 - [x] Implement `warning` library instead of print statement
-- [ ] `END` must be last command and only used once
+- [ ] `START` and `END` must be only used once
+  - [ ] `START` must be first
+  - [ ] `END` must be last
+
 - [ ] Uppercase ? How to deal with case?
   - [ ] Mnemonics , Protected Values must be UPPER case .
   - [ ] code can't be similar to them in any case
@@ -70,6 +73,8 @@
 3. Supports Comments
    1. Comment line start with "#" .
    2. there can be white space before "#"
+   3. removes comment part of line , if it contains both statement and comment
+      `Statement #comment`
 4. Supports Empty Line
 5. Splits the Statement into Label , Mnemonics , Operand1 and Operand2 fields
 6. [Error Checks Each line](#Single line Error correction)

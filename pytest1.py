@@ -2,7 +2,7 @@ import Assembler_Files.Mot_read as AF
 import re
 
 #print(dir(AF))
-mot_file = list(AF.return_Mot())
+mot_file = list(AF._return_Mot())
 #print(mot_file)
 
 
