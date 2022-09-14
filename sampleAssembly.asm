@@ -1,9 +1,10 @@
 START 200
-#hello dfdf
+
+#hello dfdf 
 #Supporting comments
-NEXT: ADD AREG, BREG
+NEXT: ADD AREG, BREG #dfff
 SUB AREG, NUMBER
-ADD BREG , 5
+ADD add , 5
 ORG 400
 
 

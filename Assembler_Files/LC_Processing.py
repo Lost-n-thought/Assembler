@@ -28,7 +28,7 @@ def LC_processing(asmfile_iter):
     first_line = next(asmfile_iter)
     LC = _starting_command(first_line)
     #print(LC)
-    
+    LCoriginal = LC
     for line in asmfile_iter:
         if(line[1]['Mnemonics'] == 'DC'):
             LC += 1
@@ -42,8 +42,10 @@ def LC_processing(asmfile_iter):
                 LC = int(line[1]['Operand1'])
             else:
                 raise Exception('Error in line {}. ORG should have a +ve number as operand'.format(line[0]['line_number']))
-
-        line[0]['LC'] = line[0].get('LC', LC)
+        else:
+            LC += int(MR.get_Mnemonics_attribute(line[1]['Mnemonics']))
+        line[0]['LC'] = line[0].get('LC', LCoriginal)
+        LCoriginal = LC
         yield line
 
 

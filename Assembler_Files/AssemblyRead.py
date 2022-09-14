@@ -123,7 +123,7 @@ def line_dict_list_Operand_identified(file_name):
         properties_dict = asm_line_dict_list[0]
         
         #Mnemonics
-        MnemonicsIC = '({} {})'.format(mr.get_Mnemonics_attribute(
+        MnemonicsIC = '({}, {})'.format(mr.get_Mnemonics_attribute(
             line_dict['Mnemonics'],'Type') , mr.get_Mnemonics_attribute(
             line_dict['Mnemonics'],'Type_id'))
         

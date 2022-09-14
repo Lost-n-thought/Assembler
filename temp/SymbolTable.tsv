@@ -1,3 +1,4 @@
 NEXT	200	True	True	Variable
-NUMBER	401	True	True	Variable
-ARRAY	411	True	False	Variable
+NUMBER	403	True	True	Variable
+add		False	True	Variable
+ARRAY	404	True	False	Variable
