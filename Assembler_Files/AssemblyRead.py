@@ -163,6 +163,7 @@ def line_dict_list_semi_final(file_name):
 
 
 
+
 #output - two dict of 1- extra info and 2- line data
 # eg
 #[{'line_number': 14}, {'label': None, 'Mnemonics': 'END', 'Operand1': None, 'Operand2': None}]

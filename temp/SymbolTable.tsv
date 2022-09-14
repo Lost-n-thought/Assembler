@@ -1,3 +1,4 @@
+Symbol	Address	isDeclared	isUsed	UsedAs
 NEXT	200	True	True	Variable
 NUMBER	403	True	True	Variable
 add		False	True	Variable
